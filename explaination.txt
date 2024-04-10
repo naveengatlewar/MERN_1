@@ -1,0 +1,43 @@
+Certainly! Let's break down the code and understand how each file is interconnected and what each part does:
+
+1. **Server.js**:
+   - This file serves as the entry point for the application.
+   - It sets up the Express server, imports necessary dependencies, and defines routes.
+   - It requires and configures the dotenv package to load environment variables from a .env file.
+   - It imports the express module and creates an instance of the Express application.
+   - It imports the router from auth-router.js and sets up routes for '/api/auth'.
+   - It sets up middleware to parse JSON bodies of incoming requests.
+   - Finally, it listens on a specified port (5000 in this case) and connects to the database before starting the server.
+
+2. **Auth-router.js**:
+   - This file defines routes related to authentication.
+   - It imports express and creates a router instance.
+   - It imports controller functions from auth-controller.js.
+   - It defines routes for handling registration ('/register'), login ('/login'), and a home route ('/') which is not used in this example.
+   - It exports the router to be used in the main server file.
+
+3. **User-Model.js**:
+   - This file defines the user schema and model using Mongoose.
+   - It imports mongoose, bcrypt, and jsonwebtoken modules.
+   - It defines a schema with fields for username, email, phone, password, and isAdmin.
+   - It pre-processes the password field before saving to hash it securely using bcrypt.
+   - It defines a method to generate a JWT token for authentication.
+   - It creates a Mongoose model named 'Users' based on the schema and exports it.
+
+4. **DB.js**:
+   - This file is responsible for connecting to the MongoDB database using Mongoose.
+   - It imports mongoose and reads the MongoDB URI from environment variables using dotenv.
+   - It defines an asynchronous function 'connectDb' to establish a connection to the database.
+   - It logs a message upon successful or failed connection and exits the process if the connection fails.
+   - It exports the 'connectDb' function to be used in the main server file.
+
+5. **Auth-controller.js**:
+   - This file contains controller functions for handling authentication logic.
+   - It imports the User model and bcrypt module.
+   - It defines a 'home' function to handle requests to the home route (not used in this example).
+   - It defines 'register' and 'login' functions to handle registration and login logic, respectively.
+   - The 'register' function checks if the email is already registered, hashes the password, creates a new user, saves it to the database, and responds with a JWT token upon successful registration.
+   - The 'login' function verifies the user's credentials, compares the password hash, and responds with a JWT token upon successful login.
+   - Both functions handle errors appropriately and send appropriate HTTP responses.
+
+These files work together to create an Express server with authentication endpoints for user registration and login, connecting to a MongoDB database using Mongoose for data storage. The controller functions encapsulate the business logic for authentication, while the router defines the API routes.
