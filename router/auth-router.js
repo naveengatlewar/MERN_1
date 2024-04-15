@@ -8,8 +8,13 @@ const authControllers = require("../controllers/auth-controller");
 
 router.route("/").get(authControllers.home);
 
-router.route("/register").post(authControllers.register);
+const signupSchema = require("../validators/auth-validators");
+const validate = require("../middleware/validate-middleware");
+
+
+router.route("/register").post( validate(signupSchema), authControllers.register);
 router.route("/login").post(authControllers.login);
+
 
 
 module.exports = router;
