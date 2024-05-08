@@ -2,19 +2,19 @@
 
 const express = require("express");
 const router = express.Router();
-
 const authControllers = require("../controllers/auth-controller");
 
 
 router.route("/").get(authControllers.home);
 
+
 const signupSchema = require("../validators/auth-validators");
+const loginSchema = require("../validators/auth-validators");
 const validate = require("../middleware/validate-middleware");
 
 
 router.route("/register").post( validate(signupSchema), authControllers.register);
-router.route("/login").post(authControllers.login);
-
+router.route("/login").post( validate(loginSchema), authControllers.login);
 
 
 module.exports = router;

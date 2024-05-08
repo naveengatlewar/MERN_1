@@ -1,12 +1,19 @@
 require("dotenv").config();
 const express = require("express");
-const router = require("./router/auth-router");
-const app = express(); // empty argument passing data to app variable (we can handle middle ware mange and server create etc..)
+const authRoute = require("./router/auth-router");
+const contactRoute = require('./router/contact-router');
+const app = express(); // empty argument passing data to app variable (we can handle middleware manage and server create etc..)
 const connectDb = require("./utils/db");
+const errorMiddleware = require("./middleware/error_middleware");
+
 
 app.use(express.json());
 
-app.use("/api/auth", router);
+app.use("/api/auth", authRoute);
+
+app.use("/api/form", contactRoute);
+
+app.use(errorMiddleware);
 
 
 // app.get("/", (req, res) => {

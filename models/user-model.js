@@ -1,13 +1,10 @@
-
 // 2) Second we make schema which data we want to add while registration except this data other we can not accept. Model
-
 
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
-
     username: {
         type: String,
         require: true,
@@ -31,7 +28,6 @@ const userSchema = new mongoose.Schema({
 
 });
 
-
 // secure the password with the bcrypt
 
 userSchema.pre("save", async function (next) {
@@ -41,20 +37,14 @@ userSchema.pre("save", async function (next) {
         next();
     }
 
-    try {
-        
+    try {     
         const saltRound = await bcrypt.genSalt(10);
         const hash_password = await bcrypt.hash(user.password, saltRound);
-
         user.password = hash_password;
-
     } catch (error) {
         next(error)
-
     }
 });
-
-
 //compare the passwords
 
 userSchema.methods.comparePassword = async function(password){
@@ -80,12 +70,8 @@ userSchema.methods.generateToken = function(){
     } catch (error) {
         console.error(error);
     }
-
 }; 
-
 // define the model or the collection name
-
-
 const User = new mongoose.model("Users", userSchema);
 
 module.exports = User;
